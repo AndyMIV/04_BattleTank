@@ -17,9 +17,6 @@ void ATankAIController::BeginPlay() {
 	}
 
 
-
-
-
 	PlayerTank = GetPlayerTank();
 	if (!PlayerTank) {
 		UE_LOG(LogTemp, Warning, TEXT("AI not detecting player"));
@@ -30,6 +27,16 @@ void ATankAIController::BeginPlay() {
 
 
 
+}
+
+void ATankAIController::Tick(float DeltaTime) {
+	Super::Tick(DeltaTime);
+	PrimaryActorTick.bCanEverTick = true;
+	AimTowardsPlayer();
+}
+
+void ATankAIController::AimTowardsPlayer() const{
+	GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 }
 
 
