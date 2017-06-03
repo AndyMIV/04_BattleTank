@@ -2,8 +2,9 @@
 
 #pragma once
 
+#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
-#include "Tank.generated.h"
+#include "Tank.generated.h"			// put new includes above
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -26,6 +27,8 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+protected: // no need for outside access, but accessible with UPROPERTY
+	// reference to a tank aiming component
+	UTankAimingComponent* TankAimingComponent = nullptr;
 	
 };
