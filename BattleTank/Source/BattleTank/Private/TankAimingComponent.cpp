@@ -37,9 +37,36 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation) const {
-	auto OurTankName = GetOwner()->GetName();
-	auto BarrelLocation = Barrel->GetComponentLocation();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankName, *HitLocation.ToString(), *BarrelLocation.ToString())
+void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) const {
+	// auto OurTankName = GetOwner()->GetName();
+	// auto BarrelLocation = Barrel->GetComponentLocation();
+	// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankName, *HitLocation.ToString(), *BarrelLocation.ToString())
+
+	if (!Barrel) { return; }  // protect
+
+	FVector OutLaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
+	// calculate the out launch velocity
+	if (UGameplayStatics::SuggestProjectileVelocity(
+		Barrel, // or use "this"
+		OutLaunchVelocity,
+		StartLocation,
+		HitLocation,
+		LaunchSpeed,
+		false,
+		0.0f,
+		0.0f,
+		ESuggestProjVelocityTraceOption::DoNotTrace, // you do not need to include params after this point
+		FCollisionResponseParams::DefaultResponseParam,
+		TArray<AActor*>(),
+		true
+		)) {
+			auto TankName = GetOwner()->GetName();
+			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+			UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *TankName, *AimDirection.ToString());
+		}
+
+	// if nothings found, do nothing
 }
 

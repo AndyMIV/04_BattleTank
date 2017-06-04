@@ -14,14 +14,15 @@ class BATTLETANK_API ATank : public APawn
 public:
 	void AimAt(FVector Hitlocation);
 
-	// a method you can call from blueprint
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
 private:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float LaunchSpeed = 10000; // TODO find sensible default
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
