@@ -9,7 +9,7 @@
 // makes dependancies explicit, without creating a chain of dependancies
 class UTankBarrel;
 
-
+// holds barrels properties and elevate method
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
