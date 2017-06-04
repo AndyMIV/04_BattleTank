@@ -1,6 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+// it didnt understand the type without this. if you need to call a method, you need to include it. 
+// All a header file needs to know is that the type exists. this keeps the compiler happy without needing a chain
+// of includes. the cpp only needs the include
+#include "TankBarrel.h"			
 #include "TankAimingComponent.h"
 
 
@@ -14,7 +18,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet) {
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	Barrel = BarrelToSet;
 }
 
@@ -46,7 +50,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) const {
 		)) {
 			auto TankName = GetOwner()->GetName();
 			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-			UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *TankName, *AimDirection.ToString());
+			// UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *TankName, *AimDirection.ToString());
 			MoveBarrelTowards(AimDirection);
 		}
 
@@ -57,8 +61,10 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) const {
 	// work-out difference between current barrel rotation, and AimDirection
 
 	// turning forward vector into rotation
-	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
+	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
 
-	// move barrel the right ammount this frame
-	// given a max elevation speed, and the frame time. (scaling)
+	Barrel->Elevate(5); // TODO remove magic number
 }

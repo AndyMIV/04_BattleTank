@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"			// put new includes above
 
+class UTankBarrel;
+// Currently, there is problem with tank blueprint. This is because blueprint is expecting a barrel vs staticmesh
+
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -15,7 +18,7 @@ public:
 	void AimAt(FVector Hitlocation);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+		void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 private:
 	// Sets default values for this pawn's properties
