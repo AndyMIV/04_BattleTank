@@ -74,10 +74,14 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) const {
 
 	// turning forward vector into rotation
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotator = AimAsRotator - BarrelRotator;
+	auto BAimAsRotator = AimDirection.Rotation();
+	auto BarrelDeltaRotator = BAimAsRotator - BarrelRotator;
+
+	// auto TurretRotator = Turret->GetForwardVector().Rotation();
+	// auto TAimAsRotator = AimDirection.Rotation();
+
 	// UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
 
-	Barrel->Elevate(DeltaRotator.Pitch); // TODO remove magic number
-	// Turret->Azimuth(DeltaRotator.Yaw);
+	Barrel->Elevate(BarrelDeltaRotator.Pitch); // TODO remove magic number
+	Turret->Azimuth(BarrelDeltaRotator.Yaw);
 }
