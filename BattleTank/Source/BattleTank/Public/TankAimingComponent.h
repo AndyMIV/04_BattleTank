@@ -23,8 +23,7 @@ public:
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 	void SetTurretReference(UTankTurret* TurretToSet);
-
-	// TODO add SetTurretReference
+	// Be on the lookout for setting things a third time. If this is the case, consider doing it another way
 
 	void AimAt(FVector HitLocation, float LaunchSpeed) const;
 

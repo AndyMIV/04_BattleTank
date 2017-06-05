@@ -15,16 +15,18 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true; // TODO Should this really tick?
+	PrimaryComponentTick.bCanEverTick = false; 
 
 	// ...
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
+	if (!BarrelToSet) { return;  }
 	Barrel = BarrelToSet;
 }
 
 void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet) {
+	if (!TurretToSet) { return; }
 	Turret = TurretToSet;
 }
 
@@ -73,15 +75,15 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) const {
 	// work-out difference between current barrel rotation, and AimDirection
 
 	// turning forward vector into rotation
-	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
-	auto BAimAsRotator = AimDirection.Rotation();
-	auto BarrelDeltaRotator = BAimAsRotator - BarrelRotator;
+	auto Rotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - Rotator;
 
 	// auto TurretRotator = Turret->GetForwardVector().Rotation();
 	// auto TAimAsRotator = AimDirection.Rotation();
 
 	// UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
 
-	Barrel->Elevate(BarrelDeltaRotator.Pitch); // TODO remove magic number
-	Turret->Azimuth(BarrelDeltaRotator.Yaw);
+	Barrel->Elevate(DeltaRotator.Pitch);
+	Turret->Azimuth(DeltaRotator.Yaw);
 }
