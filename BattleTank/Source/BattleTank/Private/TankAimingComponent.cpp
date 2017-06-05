@@ -5,7 +5,8 @@
 // it didnt understand the type without this. if you need to call a method, you need to include it. 
 // All a header file needs to know is that the type exists. this keeps the compiler happy without needing a chain
 // of includes. the cpp only needs the include
-#include "TankBarrel.h"			
+#include "TankBarrel.h"	
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 
@@ -21,6 +22,10 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet) {
+	Turret = TurretToSet;
 }
 
 
@@ -74,4 +79,5 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) const {
 	// UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
 
 	Barrel->Elevate(DeltaRotator.Pitch); // TODO remove magic number
+	// Turret->Azimuth(DeltaRotator.Yaw);
 }

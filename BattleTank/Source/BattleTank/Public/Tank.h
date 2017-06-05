@@ -7,6 +7,7 @@
 
 // Forward Declarations
 class UTankBarrel;
+class UTankTurret;
 class UTankAimingComponent;
 // Currently, there is problem with tank blueprint. This is because blueprint is expecting a barrel vs staticmesh
 
@@ -20,6 +21,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetTurretReference(UTankTurret* BarrelToSet);
+	
+
+
 
 private:
 	// Sets default values for this pawn's properties

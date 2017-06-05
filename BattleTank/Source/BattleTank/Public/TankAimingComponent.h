@@ -8,6 +8,7 @@
 // forward declaration, similar to:  class BATTLETANK_API UTankAimingComponent : public UActorComponent
 // makes dependancies explicit, without creating a chain of dependancies
 class UTankBarrel;
+class UTankTurret;
 
 // holds barrels properties and elevate method
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -21,12 +22,16 @@ public:
 
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
+	void SetTurretReference(UTankTurret* TurretToSet);
+
 	// TODO add SetTurretReference
 
 	void AimAt(FVector HitLocation, float LaunchSpeed) const;
 
 private:
 	UTankBarrel* Barrel = nullptr;
+
+	UTankTurret* Turret = nullptr;
 
 	void MoveBarrelTowards(FVector AimDirection) const;
 };
