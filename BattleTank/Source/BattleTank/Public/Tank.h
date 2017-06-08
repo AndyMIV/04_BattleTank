@@ -51,6 +51,9 @@ private:
 	// local barrel reference for spawning projectile
 	UTankBarrel* Barrel = nullptr;
 
+	float ReloadTimeInSeconds = 3;
+	double LastFireTime = 0;
+
 protected: // no need for outside access, but accessible with UPROPERTY
 	// reference to a tank aiming component
 	UTankAimingComponent* TankAimingComponent = nullptr;
