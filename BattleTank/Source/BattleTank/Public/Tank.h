@@ -8,6 +8,7 @@
 // Forward Declarations
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 class UTankAimingComponent;
 // Currently, there is problem with tank blueprint. This is because blueprint is expecting a barrel vs staticmesh
 
@@ -38,11 +39,17 @@ private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float LaunchSpeed = 4000;
 
+	UPROPERTY(EditAnywhere, Category = Setup)
+		TSubclassOf<AProjectile> ProjectileBlueprint;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// local barrel reference for spawning projectile
+	UTankBarrel* Barrel = nullptr;
 
 protected: // no need for outside access, but accessible with UPROPERTY
 	// reference to a tank aiming component
