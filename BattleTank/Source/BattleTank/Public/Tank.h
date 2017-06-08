@@ -36,10 +36,13 @@ private:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 4000;
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+		float ReloadTimeInSeconds = 3;
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	// Called when the game starts or when spawned
@@ -51,7 +54,7 @@ private:
 	// local barrel reference for spawning projectile
 	UTankBarrel* Barrel = nullptr;
 
-	float ReloadTimeInSeconds = 3;
+	
 	double LastFireTime = 0;
 
 protected: // no need for outside access, but accessible with UPROPERTY
