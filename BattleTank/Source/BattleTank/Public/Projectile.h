@@ -14,9 +14,13 @@ public:
 	// Sets default values for this actor's properties
 	AProjectile();
 
+	void LaunchProjectile(float speed);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
 
 public:	
 	// Called every frame

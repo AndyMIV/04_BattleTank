@@ -16,6 +16,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	// no need to protect pointers as added at construction
+	// added to the blueprint
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
 }
@@ -39,16 +40,17 @@ void ATank::AimAt(FVector HitLocation) {
 }
 
 void ATank::Fire() {
-	UE_LOG(LogTemp, Warning, TEXT("Projectile Fired"));
+	UE_LOG(LogTemp, Warning, TEXT("Fire initiated"));
 	// TODO setup fire command
 	if (!Barrel) { return; }
 
 	// spawn a projectile from the socket location of the turret
-	GetWorld()->SpawnActor<AProjectile>(
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 		ProjectileBlueprint,
 		Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile"))
 		);
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) {
