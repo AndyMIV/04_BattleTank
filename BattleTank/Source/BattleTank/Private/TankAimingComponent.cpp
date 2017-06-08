@@ -54,7 +54,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) const {
 		ESuggestProjVelocityTraceOption::DoNotTrace, // you do not need to include params after this point
 		FCollisionResponseParams::DefaultResponseParam,
 		TArray<AActor*>(),
-		true
+		false
 		)) {
 			auto TankName = GetOwner()->GetName();
 			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
