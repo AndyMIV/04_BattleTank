@@ -10,6 +10,7 @@ class UTankBarrel;
 class UTankTurret;
 class AProjectile;
 class UTankAimingComponent;
+class UTankMovementComponent;
 // Currently, there is problem with tank blueprint. This is because blueprint is expecting a barrel vs staticmesh
 
 UCLASS()
@@ -60,5 +61,8 @@ private:
 protected: // no need for outside access, but accessible with UPROPERTY
 	// reference to a tank aiming component
 	UTankAimingComponent* TankAimingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr;
 	
 };
