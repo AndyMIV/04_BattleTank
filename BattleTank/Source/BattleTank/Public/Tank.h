@@ -62,7 +62,7 @@ protected: // no need for outside access, but accessible with UPROPERTY
 	// reference to a tank aiming component
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly)							// makes it so you can access the class functions from the blueprint
 	UTankMovementComponent* TankMovementComponent = nullptr;
 	
 };
