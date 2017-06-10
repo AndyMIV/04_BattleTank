@@ -24,3 +24,9 @@ void UTankMovementComponent::IntendTurnRight(float Throw) {
 	RightTrack->SetThrottle(-Throw);
 	// TODO prevent double speed due to dual control use
 }
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) {
+	// no need to replace super, as we are replacing the functionality
+	auto MoveVelocityString = MoveVelocity.ToString();
+	UE_LOG(LogTemp, Warning, TEXT("AI Tank Moving: %s at %s"), *GetOwner()->GetName(), *MoveVelocityString);
+}

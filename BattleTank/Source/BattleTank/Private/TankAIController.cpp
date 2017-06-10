@@ -41,11 +41,14 @@ void ATankAIController::Tick(float DeltaTime) {
 	ATank * PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if (!ControlledTank || !PlayerTank) { return; }
 
+	// Move towards player
+	MoveToActor(PlayerTank, AcceptanceRadius); // TODO check if radius is in centimeters
+
 
 	ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
 	//Fire if ready
-	ControlledTank->Fire(); // TODO dont fire every frame
+	ControlledTank->Fire();
 }
 
 
