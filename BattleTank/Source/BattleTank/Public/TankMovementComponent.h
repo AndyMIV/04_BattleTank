@@ -5,7 +5,6 @@
 #include "GameFramework/NavMovementComponent.h"
 #include "TankMovementComponent.generated.h"
 
-class ATank;
 class UTankTrack;
 
 /**
@@ -18,20 +17,20 @@ class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 	
 public:
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
-	UFUNCTION(BlueprintCallable, Category = Controls)
+	UFUNCTION(BlueprintCallable, Category = "Controls")
 	void IntendMoveForward(float Throw);  // how far back controller is moved
 
-	UFUNCTION(BlueprintCallable, Category = Controls)
+	UFUNCTION(BlueprintCallable, Category = "Controls")
 	void IntendTurnRight(float Throw);
 
+private:
 	// Intercepts the engine call and overrides it with our own version of RequestDirectMove
-	// TODO check best protection of this method
+	// called from the pathfinding logic by the AI controllers
 	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 
-private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
 
