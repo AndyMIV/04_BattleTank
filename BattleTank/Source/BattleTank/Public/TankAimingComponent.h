@@ -28,21 +28,18 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	void SetTurretReference(UTankTurret* TurretToSet);
-	// Be on the lookout for setting things a third time. If this is the case, consider doing it another way
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 	void AimAt(FVector HitLocation, float LaunchSpeed) const;
 
 private:
-	UTankBarrel* Barrel = nullptr;
-
-	UTankTurret* Turret = nullptr;
-
 	void MoveBarrelTowards(FVector AimDirection) const;
 
 protected: // we are asking to access the property from the subclass: tankaimingcomponent blueprint (remember c++ is the parent)
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+
+	UTankBarrel* Barrel = nullptr;
+	UTankTurret* Turret = nullptr;
 };
