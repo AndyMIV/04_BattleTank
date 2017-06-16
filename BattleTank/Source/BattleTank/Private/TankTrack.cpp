@@ -8,7 +8,7 @@
 
 void UTankTrack::SetThrottle(float Throttle) {
 	
-	UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"), Throttle);
+	// UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"), Throttle);
 	// TODO clamp actual throttle value so player cannot change values
 	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
 	auto ForceLocation = GetComponentLocation(); // returns the location of the tracks
