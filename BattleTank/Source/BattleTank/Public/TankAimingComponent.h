@@ -5,6 +5,14 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+// Enumeration for aiming state
+UENUM()
+enum class EFiringStatus : uint8 {
+	Reloading,
+	Aiming,
+	Locked
+};
+
 // forward declaration, similar to:  class BATTLETANK_API UTankAimingComponent : public UActorComponent
 // makes dependancies explicit, without creating a chain of dependancies
 class UTankBarrel;
@@ -33,4 +41,8 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	void MoveBarrelTowards(FVector AimDirection) const;
+
+protected: // we are asking to access the property from the subclass: tankaimingcomponent blueprint (remember c++ is the parent)
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 };
