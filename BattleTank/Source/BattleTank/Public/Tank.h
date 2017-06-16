@@ -59,7 +59,7 @@ private:
 	double LastFireTime = 0;
 
 protected: // no need for outside access, but accessible with UPROPERTY
-	// reference to a tank aiming component
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)							// makes it so you can access the class functions from the blueprint
