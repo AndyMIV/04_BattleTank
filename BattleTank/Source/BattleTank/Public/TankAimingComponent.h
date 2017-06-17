@@ -38,7 +38,7 @@ private:
 
 protected: // we are asking to access the property from the subclass: tankaimingcomponent blueprint (remember c++ is the parent)
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+	EFiringStatus FiringStatus = EFiringStatus::Aiming;
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
