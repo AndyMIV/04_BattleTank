@@ -10,7 +10,6 @@ class UTankBarrel;
 class UTankTurret;
 class AProjectile;
 class UTankAimingComponent;
-class UTankMovementComponent;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -53,8 +52,5 @@ private:
 protected: // no need for outside access, but accessible with UPROPERTY
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
-
-	UPROPERTY(BlueprintReadOnly)							// makes it so you can access the class functions from the blueprint
-	UTankMovementComponent* TankMovementComponent = nullptr;
 	
 };
