@@ -39,7 +39,7 @@ void ATankAIController::Tick(float DeltaTime) {
 
 	ATank * ControlledTank = Cast<ATank>(GetPawn());
 	ATank * PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	if (!ControlledTank || !PlayerTank) { return; }
+	if (!ensure (ControlledTank && PlayerTank)) { return; }
 
 	// Move towards player
 	MoveToActor(PlayerTank, AcceptanceRadius); // TODO check if radius is in centimeters

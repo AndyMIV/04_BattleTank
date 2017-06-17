@@ -10,7 +10,8 @@ void ATankPlayerController::BeginPlay() {
 
 	// we are looking through the tank to the aiming component (component based architecture)
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent) {
+	if (ensure (AimingComponent)) {
+		// broadcasting blueprintInplementableEvent
 		FoundAimingComponent(AimingComponent);
 	}
 	else {
@@ -33,7 +34,7 @@ ATank* ATankPlayerController::GetControlledTank() const {
 }
 
 void ATankPlayerController::AimTowardsCrosshair() {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 
 	FVector HitLocation; // out parameter
 	if (GetSightRayHitLocation(HitLocation)) {
