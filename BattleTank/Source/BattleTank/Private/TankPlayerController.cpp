@@ -15,9 +15,6 @@ void ATankPlayerController::BeginPlay() {
 		// broadcasting blueprintInplementableEvent
 		FoundAimingComponent(AimingComponent);
 	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Player controller cant find aiming component at begin play"));
-	}
 
 }
 

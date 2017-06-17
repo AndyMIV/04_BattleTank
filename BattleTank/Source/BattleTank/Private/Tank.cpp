@@ -19,6 +19,11 @@ void ATank::BeginPlay(){
 	Super::BeginPlay(); // neede for BP begin play to run!
 
 	UE_LOG(LogTemp, Warning, TEXT("CustomDebug: Tank.cpp Begin Play"));
+
+	// we do this because we need working code before refactoring
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+
+	Barrel = FindComponentByClass<UTankBarrel>();
 }
 
 // Called to bind functionality to input
@@ -35,8 +40,8 @@ void ATank::AimAt(FVector HitLocation) {
 
 void ATank::Fire() {
 	if (!ensure(Barrel)) { return; }
+	UE_LOG(LogTemp, Warning, TEXT("Is fire working?"));
 	bool isReloaded = FPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds; // also same as getworld, getTimeSeconds
-
 	if (isReloaded) {
 		// spawn a projectile from the socket location of the turret
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
