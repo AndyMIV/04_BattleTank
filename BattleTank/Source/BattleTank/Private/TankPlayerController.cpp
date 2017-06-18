@@ -3,14 +3,13 @@
 
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 #include "TankPlayerController.h"
 
 void ATankPlayerController::BeginPlay() {
 	Super::BeginPlay(); // call default behavior
 
 	// we are looking through the tank to the aiming component (component based architecture)
-	AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure (AimingComponent)) {
 		// broadcasting blue printInplementableEvent
 		FoundAimingComponent(AimingComponent);
@@ -24,15 +23,8 @@ void ATankPlayerController::Tick(float DeltaTime) {
 	AimTowardsCrosshair();
 }
 
-
-
-ATank* ATankPlayerController::GetControlledTank() const {
-	// returns the pawn that the player controller is currently posessing. works because it is based off of player controller.
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankPlayerController::AimTowardsCrosshair() {
-	if (!ensure(GetControlledTank())) { return; }
+	if (!ensure(GetPawn())) { return; }
 
 	FVector HitLocation; // out parameter
 	if (GetSightRayHitLocation(HitLocation)) {

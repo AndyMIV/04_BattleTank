@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
-#include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
 #include "Tank.h"
@@ -19,9 +18,6 @@ void ATank::BeginPlay(){
 	Super::BeginPlay(); // neede for BP begin play to run!
 
 	UE_LOG(LogTemp, Warning, TEXT("CustomDebug: Tank.cpp Begin Play"));
-
-	// we do this because we need working code before refactoring
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 
 	Barrel = FindComponentByClass<UTankBarrel>();
 }

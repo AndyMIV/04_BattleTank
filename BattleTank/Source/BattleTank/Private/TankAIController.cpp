@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
-#include "Tank.h"
 #include "TankAimingComponent.h"
 #include "TankAIController.h"
 // depends on movement component via pathfinding system
@@ -9,15 +8,15 @@
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
 
-	ATank * ControlledTank = Cast<ATank>(GetPawn());
-	ATank * PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto * ControlledTank = GetPawn();
+	auto * PlayerTank = (GetWorld()->GetFirstPlayerController()->GetPawn());
 
 	// we are looking through the tank to the aiming component (component based architecture)
 	AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
 
 	UE_LOG(LogTemp, Warning, TEXT("AI Controller Begin Play"));
 	auto PosessedAITank = ControlledTank;
-	if (!PosessedAITank) {
+	if (!ensure (PosessedAITank)) {
 		UE_LOG(LogTemp, Warning, TEXT("AI Tank Not Detected!!!"));
 	}
 	else {
@@ -26,7 +25,7 @@ void ATankAIController::BeginPlay() {
 
 
 	PlayerTank = PlayerTank;
-	if (!PlayerTank) {
+	if (!ensure (PlayerTank)) {
 		UE_LOG(LogTemp, Warning, TEXT("AI not detecting player"));
 	}
 	else {
@@ -38,8 +37,8 @@ void ATankAIController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 	PrimaryActorTick.bCanEverTick = true;
 
-	ATank * ControlledTank = Cast<ATank>(GetPawn());
-	ATank * PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto ControlledTank = GetPawn();
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	if (!ensure (ControlledTank && PlayerTank)) { return; }
 
 	// Move towards player
@@ -49,7 +48,7 @@ void ATankAIController::Tick(float DeltaTime) {
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
 	//Fire if ready
-	ControlledTank->Fire();
+	// ControlledTank->Fire();
 }
 
 

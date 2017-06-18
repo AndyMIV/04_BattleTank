@@ -19,8 +19,6 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 
 // has to be protected for blueprintcallable to work
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank * GetControlledTank() const;
 
 	// An event that comes out in blueprint
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
