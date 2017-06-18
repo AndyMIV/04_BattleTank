@@ -10,9 +10,9 @@ void ATankPlayerController::BeginPlay() {
 	Super::BeginPlay(); // call default behavior
 
 	// we are looking through the tank to the aiming component (component based architecture)
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure (AimingComponent)) {
-		// broadcasting blueprintInplementableEvent
+		// broadcasting blue printInplementableEvent
 		FoundAimingComponent(AimingComponent);
 	}
 
@@ -36,7 +36,7 @@ void ATankPlayerController::AimTowardsCrosshair() {
 
 	FVector HitLocation; // out parameter
 	if (GetSightRayHitLocation(HitLocation)) {
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 	// Get world location of linetrace through crosshair
 	// if it hits landscape

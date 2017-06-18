@@ -33,11 +33,6 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void ATank::AimAt(FVector HitLocation) {
-	if (!ensure (TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-}
-
 void ATank::Fire() {
 	if (!ensure(Barrel)) { return; }
 	UE_LOG(LogTemp, Warning, TEXT("Is fire working?"));
@@ -49,7 +44,7 @@ void ATank::Fire() {
 			Barrel->GetSocketLocation(FName("Projectile")),
 			Barrel->GetSocketRotation(FName("Projectile"))
 			);
-		Projectile->LaunchProjectile(LaunchSpeed);
+		Projectile->LaunchProjectile(5);    // temporary value
 		LastFireTime = FPlatformTime::Seconds();
 	}
 

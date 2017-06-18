@@ -31,14 +31,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	void AimAt(FVector HitLocation, float LaunchSpeed) const;
+	void AimAt(FVector HitLocation) const;
 
 private:
 	void MoveBarrelTowards(FVector AimDirection) const;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float LaunchSpeed = 4000;
+
 protected: // we are asking to access the property from the subclass: tankaimingcomponent blueprint (remember c++ is the parent)
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringStatus = EFiringStatus::Aiming;
+	EFiringStatus FiringStatus = EFiringStatus::Locked;
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;

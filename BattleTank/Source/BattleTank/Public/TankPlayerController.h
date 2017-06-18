@@ -31,6 +31,8 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+	UTankAimingComponent* AimingComponent = nullptr;
+
 	// starter the tank moving the barrel so that a shot would hit where the crosshair intersects
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector &OutHitLocation) const;

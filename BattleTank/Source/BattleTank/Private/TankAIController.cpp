@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "Tank.h"
+#include "TankAimingComponent.h"
 #include "TankAIController.h"
 // depends on movement component via pathfinding system
 
@@ -11,8 +12,10 @@ void ATankAIController::BeginPlay() {
 	ATank * ControlledTank = Cast<ATank>(GetPawn());
 	ATank * PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	UE_LOG(LogTemp, Warning, TEXT("AI Controller Begin Play"));
+	// we are looking through the tank to the aiming component (component based architecture)
+	AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
 
+	UE_LOG(LogTemp, Warning, TEXT("AI Controller Begin Play"));
 	auto PosessedAITank = ControlledTank;
 	if (!PosessedAITank) {
 		UE_LOG(LogTemp, Warning, TEXT("AI Tank Not Detected!!!"));
@@ -29,9 +32,6 @@ void ATankAIController::BeginPlay() {
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("AI Tank detecting player: %s"), *PlayerTank->GetName());
 	}
-
-
-
 }
 
 void ATankAIController::Tick(float DeltaTime) {
@@ -46,7 +46,7 @@ void ATankAIController::Tick(float DeltaTime) {
 	MoveToActor(PlayerTank, AcceptanceRadius); // TODO check if radius is in centimeters
 
 
-	ControlledTank->AimAt(PlayerTank->GetActorLocation());
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
 	//Fire if ready
 	ControlledTank->Fire();
