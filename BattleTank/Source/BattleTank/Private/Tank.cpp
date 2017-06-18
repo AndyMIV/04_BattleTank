@@ -1,8 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
-#include "TankBarrel.h"
-#include "Projectile.h"
+
 #include "Tank.h"
 
 // Sets default values
@@ -12,37 +11,4 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	UE_LOG(LogTemp, Warning, TEXT("CustomDebug: Tank.cpp Consructor"));
-}
-
-void ATank::BeginPlay(){
-	Super::BeginPlay(); // neede for BP begin play to run!
-
-	UE_LOG(LogTemp, Warning, TEXT("CustomDebug: Tank.cpp Begin Play"));
-
-	Barrel = FindComponentByClass<UTankBarrel>();
-}
-
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-
-void ATank::Fire() {
-	if (!ensure(Barrel)) { return; }
-	UE_LOG(LogTemp, Warning, TEXT("Is fire working?"));
-	bool isReloaded = FPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds; // also same as getworld, getTimeSeconds
-	if (isReloaded) {
-		// spawn a projectile from the socket location of the turret
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-			ProjectileBlueprint,
-			Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile"))
-			);
-		Projectile->LaunchProjectile(5);    // temporary value
-		LastFireTime = FPlatformTime::Seconds();
-	}
-
-	
 }
