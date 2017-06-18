@@ -15,9 +15,28 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false; 
+	PrimaryComponentTick.bCanEverTick = true; 
 
 	// ...
+}
+
+void UTankAimingComponent::BeginPlay() {
+
+	// so that first fire is after initial reload
+	LastFireTime = FPlatformTime::Seconds();
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {    // also same as getworld, getTimeSeconds
+		FiringStatus = EFiringStatus::Reloading;
+	}
+	// else if (IsBarrelMoving()) {
+		// FiringStatus = EFiringStatus::Aiming;
+	// }
+	else {
+		FiringStatus = EFiringStatus::Aiming;
+	}
+	// TODO handle aiming and locked state
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet) {
@@ -26,11 +45,16 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::Fire() {
-	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
-	UE_LOG(LogTemp, Warning, TEXT("Is fire working?"));
-	bool isReloaded = FPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds; // also same as getworld, getTimeSeconds
-	if (isReloaded) {
+bool UTankAimingComponent::IsBarrelMoving() {
+	if (!ensure(Barrel)) { return false; }
+	auto BarrelForward = Barrel->GetForwardVector();
+	return false; // !BarrelForward.Equals(AimDirection, 0.01);
+}
+
+void UTankAimingComponent::Fire() {  // starts immediately since ai tank are firing immediately
+	if (FiringStatus != EFiringStatus::Reloading) {
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBlueprint)) { return; }
 		// spawn a projectile from the socket location of the turret
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,

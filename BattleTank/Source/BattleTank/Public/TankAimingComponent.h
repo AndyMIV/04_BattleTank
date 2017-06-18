@@ -33,10 +33,18 @@ public:
 		void Fire();
 
 private:
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	virtual void BeginPlay() override;
+
 	void MoveBarrelTowards(FVector AimDirection) const;
+
+	bool IsBarrelMoving();
+
+
+	// FVector AimDirection;
 
 	double LastFireTime = 0;
 
@@ -54,5 +62,5 @@ private:
 
 protected: // we are asking to access the property from the subclass: tankaimingcomponent blueprint (remember c++ is the parent)
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringStatus = EFiringStatus::Locked;
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 };
