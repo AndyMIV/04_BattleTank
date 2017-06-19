@@ -27,7 +27,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	void AimAt(FVector HitLocation) const;
+	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void Fire();
@@ -39,12 +39,12 @@ private:
 
 	virtual void BeginPlay() override;
 
-	void MoveBarrelTowards(FVector AimDirection) const;
+	void MoveBarrelTowards(FVector AimDirection);
 
 	bool IsBarrelMoving();
 
 
-	// FVector AimDirection;
+	FVector AimDirection;
 
 	double LastFireTime = 0;
 

@@ -30,9 +30,9 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {    // also same as getworld, getTimeSeconds
 		FiringStatus = EFiringStatus::Reloading;
 	}
-	// else if (IsBarrelMoving()) {
-		// FiringStatus = EFiringStatus::Aiming;
-	// }
+	else if (IsBarrelMoving()) {
+		FiringStatus = EFiringStatus::Aiming;
+	}
 	else {
 		FiringStatus = EFiringStatus::Aiming;
 	}
@@ -45,10 +45,10 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	Turret = TurretToSet;
 }
 
-bool UTankAimingComponent::IsBarrelMoving() {
+bool UTankAimingComponent::IsBarrelMoving(){
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
-	return false; // !BarrelForward.Equals(AimDirection, 0.01);
+	return !BarrelForward.Equals(AimDirection, 0.01);
 }
 
 void UTankAimingComponent::Fire() {  // starts immediately since ai tank are firing immediately
@@ -67,7 +67,7 @@ void UTankAimingComponent::Fire() {  // starts immediately since ai tank are fir
 }
 
 
-void UTankAimingComponent::AimAt(FVector HitLocation) const {
+void UTankAimingComponent::AimAt(FVector HitLocation) {
 	// auto OurTankName = GetOwner()->GetName();
 	// auto BarrelLocation = Barrel->GetComponentLocation();
 	// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankName, *HitLocation.ToString(), *BarrelLocation.ToString())
@@ -93,7 +93,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation) const {
 		false
 		)) {
 			auto TankName = GetOwner()->GetName();
-			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+			AimDirection = OutLaunchVelocity.GetSafeNormal();
 			// UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *TankName, *AimDirection.ToString());
 			MoveBarrelTowards(AimDirection);
 			auto Time = GetWorld()->GetTimeSeconds();
@@ -107,8 +107,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation) const {
 	// if nothings found, do nothing
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) const {
-	if (!ensure (Barrel && Turret)) { return; }
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection){
+	if (!ensure(Barrel && Turret)) { return; }
 	// work-out difference between current barrel rotation, and AimDirection
 
 	// turning forward vector into rotation
