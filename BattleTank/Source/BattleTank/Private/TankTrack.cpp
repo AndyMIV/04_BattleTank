@@ -7,6 +7,10 @@ UTankTrack::UTankTrack() {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+void UTankTrack::BeginPlay() {
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
+}
+
 void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
 	// Super::TickComponent(DeltaTime, TickType, ThisTickFunction);		- although there isnt any, allows BP tick component to function
 	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());  // the component of speed in the tank right direction
@@ -29,3 +33,7 @@ void UTankTrack::SetThrottle(float Throttle) {
 	// to get here, we went up the class heirarchy to the owner (Tank_BP), down to the root component, and then cased the static mesh to the 
 	// primitive component
  }
+
+void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
+	
+}
