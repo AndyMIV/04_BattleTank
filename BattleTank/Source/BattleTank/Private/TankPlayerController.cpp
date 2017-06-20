@@ -24,7 +24,7 @@ void ATankPlayerController::Tick(float DeltaTime) {
 }
 
 void ATankPlayerController::AimTowardsCrosshair() {
-	if (!ensure(GetPawn())) { return; }
+	if (!GetPawn()) { return; }		// e.g. if not posessing, this can happen during death so no ensure needed. And this stops crashing when opening its BP
 
 	FVector HitLocation; // out parameter
 	if (GetSightRayHitLocation(HitLocation)) {

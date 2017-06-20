@@ -34,7 +34,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 		FiringStatus = EFiringStatus::Aiming;
 	}
 	else {
-		FiringStatus = EFiringStatus::Aiming;
+		FiringStatus = EFiringStatus::Locked;
 	}
 	// TODO handle aiming and locked state
 }
@@ -48,7 +48,7 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 bool UTankAimingComponent::IsBarrelMoving(){
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.01);
+	return !BarrelForward.Equals(AimDirection, 0.01); // if equal, the barrel is not moving
 }
 
 void UTankAimingComponent::Fire() {  // starts immediately since ai tank are firing immediately

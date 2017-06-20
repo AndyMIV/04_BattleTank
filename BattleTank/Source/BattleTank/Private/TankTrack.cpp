@@ -3,8 +3,20 @@
 #include "BattleTank.h"
 #include "TankTrack.h"
 
+UTankTrack::UTankTrack() {
+	PrimaryComponentTick.bCanEverTick = true;
+}
 
-
+void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
+	// Super::TickComponent(DeltaTime, TickType, ThisTickFunction);		- although there isnt any, allows BP tick component to function
+	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());  // the component of speed in the tank right direction
+	// We want opposite direction of slipping (How much opposite slippage speed we need in this frame in this acceleration (y unit direction vector))
+	auto CorrectionAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
+	// calculate and apply sideways force f=ma
+	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent()); // downcasting, allows us to use static mesh to get mass, as a scene component does not allow us to get physics mass
+	auto CorrectionForce = (TankRoot->GetMass()*CorrectionAcceleration) / 2;  // there are 2 tracks, so divide by 2
+	TankRoot->AddForce(CorrectionForce);
+}
 
 void UTankTrack::SetThrottle(float Throttle) {
 	
