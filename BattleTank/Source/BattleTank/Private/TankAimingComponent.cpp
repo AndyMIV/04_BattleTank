@@ -45,6 +45,10 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	Turret = TurretToSet;
 }
 
+EFiringStatus UTankAimingComponent::GetFiringStatus() const{
+	return FiringStatus;
+}
+
 bool UTankAimingComponent::IsBarrelMoving(){
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
@@ -119,8 +123,15 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection){
 	// auto TurretRotator = Turret->GetForwardVector().Rotation();
 	// auto TAimAsRotator = AimDirection.Rotation();
 
-	// UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *DeltaRotator.ToString());
 
+	// always yaw the shortest way
 	Barrel->Elevate(DeltaRotator.Pitch);
-	Turret->Azimuth(DeltaRotator.Yaw);
+	if (FMath::Abs(DeltaRotator.Yaw) < 180) {
+		Turret->Azimuth(DeltaRotator.Yaw);
+	}
+	else {Turret->Azimuth(-DeltaRotator.Yaw); 
+	UE_LOG(LogTemp, Warning, TEXT("opposite way!")); 
+	}
+
 }

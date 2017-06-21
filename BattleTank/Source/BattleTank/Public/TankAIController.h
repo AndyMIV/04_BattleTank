@@ -22,9 +22,11 @@ private:
 
 	UTankAimingComponent* AimingComponent = nullptr;
 
-	// how close can the AI tank get
-	float AcceptanceRadius = 3000;
-
 
 	ATank* PlayerTank = nullptr;
+
+protected: // children can read it
+	// how close can the AI tank get
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float AcceptanceRadius = 5000;
 };

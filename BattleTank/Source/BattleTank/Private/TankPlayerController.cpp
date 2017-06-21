@@ -27,7 +27,9 @@ void ATankPlayerController::AimTowardsCrosshair() {
 	if (!GetPawn()) { return; }		// e.g. if not posessing, this can happen during death so no ensure needed. And this stops crashing when opening its BP
 
 	FVector HitLocation; // out parameter
-	if (GetSightRayHitLocation(HitLocation)) {
+	bool bGetSightRayHitLocation = GetSightRayHitLocation(HitLocation);
+	// UE_LOG(LogTemp, Warning, TEXT("%i"), bGetSightRayHitLocation);
+	if (bGetSightRayHitLocation) {
 		AimingComponent->AimAt(HitLocation);
 	}
 	// Get world location of linetrace through crosshair
