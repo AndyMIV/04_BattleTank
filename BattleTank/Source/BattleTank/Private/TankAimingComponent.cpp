@@ -27,7 +27,10 @@ void UTankAimingComponent::BeginPlay() {
 }
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {    // also same as getworld, getTimeSeconds
+	if (BarrelRounds <= 0) {
+		FiringStatus = EFiringStatus::Empty;
+	}
+	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {    // also same as getworld, getTimeSeconds
 		FiringStatus = EFiringStatus::Reloading;
 	}
 	else if (IsBarrelMoving()) {
@@ -36,7 +39,6 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	else {
 		FiringStatus = EFiringStatus::Locked;
 	}
-	// TODO handle aiming and locked state
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet) {
@@ -49,6 +51,14 @@ EFiringStatus UTankAimingComponent::GetFiringStatus() const{
 	return FiringStatus;
 }
 
+int UTankAimingComponent::GetBarrelRounds() {
+	return BarrelRounds;
+}
+
+void UTankAimingComponent::SetBarrelRounds(int num) {
+	BarrelRounds = num;
+}
+
 bool UTankAimingComponent::IsBarrelMoving(){
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
@@ -56,7 +66,7 @@ bool UTankAimingComponent::IsBarrelMoving(){
 }
 
 void UTankAimingComponent::Fire() {  // starts immediately since ai tank are firing immediately
-	if (FiringStatus != EFiringStatus::Reloading) {
+	if (FiringStatus == EFiringStatus::Locked || FiringStatus != EFiringStatus::Aiming) {
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
 		// spawn a projectile from the socket location of the turret
@@ -67,7 +77,11 @@ void UTankAimingComponent::Fire() {  // starts immediately since ai tank are fir
 			);
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+
+		BarrelRounds--;
+
 	}
+	// else, no fire
 }
 
 
@@ -129,7 +143,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection){
 	Barrel->Elevate(DeltaRotator.Pitch);
 	if (FMath::Abs(DeltaRotator.Yaw) < 180) {
 		Turret->Azimuth(DeltaRotator.Yaw);
-	}
+	}  // avoid going the long waay round
 	else {Turret->Azimuth(-DeltaRotator.Yaw); 
 	UE_LOG(LogTemp, Warning, TEXT("opposite way!")); 
 	}
