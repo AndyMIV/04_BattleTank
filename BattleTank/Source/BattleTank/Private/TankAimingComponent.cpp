@@ -55,7 +55,7 @@ int UTankAimingComponent::GetBarrelRounds() {
 	return BarrelRounds;
 }
 
-void UTankAimingComponent::SetBarrelRounds(int num) {
+void UTankAimingComponent::SetBarrelRounds(int32 num) {
 	BarrelRounds = num;
 }
 
@@ -125,19 +125,19 @@ void UTankAimingComponent::AimAt(FVector HitLocation) {
 	// if nothings found, do nothing
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection){
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDir){
 	if (!ensure(Barrel && Turret)) { return; }
 	// work-out difference between current barrel rotation, and AimDirection
 
 	// turning forward vector into rotation
 	auto Rotator = Barrel->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
+	auto AimAsRotator = AimDir.Rotation();
 	auto DeltaRotator = AimAsRotator - Rotator;
 
 	// auto TurretRotator = Turret->GetForwardVector().Rotation();
 	// auto TAimAsRotator = AimDirection.Rotation();
 
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *DeltaRotator.ToString());
+	// UE_LOG(LogTemp, Warning, TEXT("%s"), *DeltaRotator.ToString());
 
 	// always yaw the shortest way
 	Barrel->Elevate(DeltaRotator.Pitch);
@@ -145,7 +145,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection){
 		Turret->Azimuth(DeltaRotator.Yaw);
 	}  // avoid going the long waay round
 	else {Turret->Azimuth(-DeltaRotator.Yaw); 
-	UE_LOG(LogTemp, Warning, TEXT("opposite way!")); 
+	// UE_LOG(LogTemp, Warning, TEXT("opposite way!")); 
 	}
 
 }

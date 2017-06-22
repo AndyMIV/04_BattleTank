@@ -11,6 +11,15 @@ AProjectile::AProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement Component"));
+
+	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
+	SetRootComponent(CollisionMesh);
+	CollisionMesh->SetNotifyRigidBodyCollision(true);		// when you make a BP based on C++ projectile, this checkbox will be checked by default (simulation generates hit events)
+	CollisionMesh->SetVisibility(false);					//  we dont want to see the balls, only the smoke, so defailt to false
+
+	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Static Mesh Component"));
+	LaunchBlast->AttachTo(RootComponent);
+
 	ProjectileMovementComponent->bAutoActivate = false;
 }
 

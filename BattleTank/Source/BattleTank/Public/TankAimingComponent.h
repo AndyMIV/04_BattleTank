@@ -36,10 +36,10 @@ public:
 	EFiringStatus GetFiringStatus() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	int GetBarrelRounds();
+	int32 GetBarrelRounds();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetBarrelRounds(int num);
+	void SetBarrelRounds(int32 num);
 
 
 
