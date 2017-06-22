@@ -49,8 +49,9 @@ void ATankAIController::Tick(float DeltaTime) {
 
 	//Fire if ready if aiming or locked
 	if (AimingComponent->GetFiringStatus() == EFiringStatus::Locked) {
-		AimingComponent->Fire();
+		// AimingComponent->Fire();
 	}
+	AimingComponent->Fire();
 }
 
 
