@@ -66,7 +66,7 @@ bool UTankAimingComponent::IsBarrelMoving(){
 }
 
 void UTankAimingComponent::Fire() {  // starts immediately since ai tank are firing immediately
-	if (FiringStatus == EFiringStatus::Locked || FiringStatus != EFiringStatus::Aiming) {
+	if (FiringStatus == EFiringStatus::Locked || FiringStatus == EFiringStatus::Aiming) {
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
 		// spawn a projectile from the socket location of the turret
