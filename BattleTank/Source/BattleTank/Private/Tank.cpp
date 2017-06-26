@@ -11,4 +11,20 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	UE_LOG(LogTemp, Warning, TEXT("CustomDebug: Tank.cpp Consructor"));
+
+}
+
+float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) {
+	// you don't want to compare floats, so we are converting to points (int32). round damage to nearest integer
+	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
+	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
+	// now we can say for sure if the tank has 0 health.
+
+	CurrentHealth -= DamageToApply;
+	if (CurrentHealth <= 0) {
+		UE_LOG(LogTemp, Warning, TEXT("Tank Died"));
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Damage Ammount:%f, DamageToApply:%i"), DamageAmount, DamageToApply);
+	return DamageToApply;
 }
