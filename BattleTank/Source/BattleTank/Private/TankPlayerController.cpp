@@ -3,6 +3,7 @@
 
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
+#include "Tank.h"
 #include "TankPlayerController.h"
 
 void ATankPlayerController::BeginPlay() {
@@ -21,6 +22,22 @@ void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 	PrimaryActorTick.bCanEverTick = true;
 	AimTowardsCrosshair();
+}
+
+void ATankPlayerController::SetPawn(APawn* InPawn) {
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto PosessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PosessedTank)) { return; }
+
+		// subscribe our local method to the deaths tank event
+		PosessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossesedTankDeath);
+	}
+}
+
+void ATankPlayerController::OnPossesedTankDeath() {
+	UE_LOG(LogTemp, Warning, TEXT("Received"));
+	StartSpectatingOnly();
 }
 
 void ATankPlayerController::AimTowardsCrosshair() {

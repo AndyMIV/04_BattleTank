@@ -14,6 +14,16 @@ ATank::ATank()
 
 }
 
+void ATank::BeginPlay() {
+	Super::BeginPlay();
+	CurrentHealth = StartingHealth;
+}
+
+float ATank::GetHealthPercentage() const {
+	// floating point division
+	return (float)CurrentHealth / (float)StartingHealth;
+}
+
 float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) {
 	// you don't want to compare floats, so we are converting to points (int32). round damage to nearest integer
 	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
@@ -23,8 +33,9 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEv
 	CurrentHealth -= DamageToApply;
 	if (CurrentHealth <= 0) {
 		UE_LOG(LogTemp, Warning, TEXT("Tank Died"));
+		OnDeath.Broadcast();
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Damage Ammount:%f, DamageToApply:%i"), DamageAmount, DamageToApply);
+	// UE_LOG(LogTemp, Warning, TEXT("Damage Ammount:%f, DamageToApply:%i"), DamageAmount, DamageToApply);
 	return DamageToApply;
 }

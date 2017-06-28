@@ -39,7 +39,7 @@ void AProjectile::BeginPlay()
 }
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
-	UE_LOG(LogTemp, Warning, TEXT("OnHit activated"));
+	// UE_LOG(LogTemp, Warning, TEXT("OnHit activated"));
 	LaunchBlast->Deactivate();
 	ImpactBlast->SetWorldLocation(CollisionMesh->GetComponentLocation());
 	ImpactBlast->Activate();

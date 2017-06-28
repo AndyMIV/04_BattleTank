@@ -28,6 +28,7 @@ protected:
 private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetPawn(APawn* InPawn) override; // called when pawn is posessed
 
 	UTankAimingComponent* AimingComponent = nullptr;
 
@@ -45,4 +46,8 @@ private:
 	float CrossHairYLocation = 0.33333;
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000; // km to cm
+
+	UFUNCTION()
+		void OnPossesedTankDeath();
+
 };

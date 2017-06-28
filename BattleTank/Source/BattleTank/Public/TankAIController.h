@@ -19,6 +19,10 @@ class BATTLETANK_API ATankAIController : public AAIController
 private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetPawn(APawn* InPawn) override; // called when pawn is posessed
+
+	UFUNCTION()
+		void OnPossesedTankDeath();
 
 	UTankAimingComponent* AimingComponent = nullptr;
 
